@@ -1,14 +1,27 @@
-@tailwindcss base;
-@tailwindcss components;
-@tailwindcss utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --bg-void: #14100C;
+  --bg-surface: #1F1712;
+  --bg-light: #F3E9DD;
+  --ember: #FF5A1F;
+  --rust: #B23A0E;
+  --amber-glow: #FFB454;
+  --text-ivory: #F3E9DD;
+  --text-muted: #9C8A79;
+  --free-green: #6FCF7A;
+  --occupied-red: #E1462C;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--text-ivory);
+  background-color: var(--bg-void);
+  font-family: var(--font-body), system-ui, sans-serif;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+

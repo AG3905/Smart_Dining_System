@@ -1,7 +1,9 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { getCookie, getStoredUser, clearAuthToken } from '@/lib/api';
 import {
   LayoutDashboard,
   Grid,
@@ -13,7 +15,9 @@ import {
   BookOpen,
   Settings,
   LogOut,
-  Utensils
+  Utensils,
+  Loader2,
+  UserCheck
 } from 'lucide-react';
 
 const ownerNavItems = [
@@ -34,18 +38,52 @@ export default function OwnerDashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<any | null>(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    const token = getCookie('auth_token') || getCookie('token');
+    const storedUser = getStoredUser();
+
+    if (!token || !storedUser || (storedUser.role !== 'owner' && storedUser.role !== 'staff')) {
+      clearAuthToken();
+      router.push('/login');
+    } else {
+      setUser(storedUser);
+      setCheckingAuth(false);
+    }
+  }, [router]);
+
+  const handleSignOut = () => {
+    clearAuthToken();
+    router.push('/login');
+  };
+
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center text-slate-100 space-y-4">
+        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+        <p className="text-sm font-medium text-slate-400">Verifying Owner Credentials...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-slate-100">
       {/* Owner Sidebar Navigation */}
-      <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col border-r border-slate-800">
+      <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col border-r border-slate-800 shrink-0">
         <div className="p-4 border-b border-slate-800 flex items-center space-x-3">
           <div className="p-2 bg-amber-500 rounded-lg text-white">
             <Utensils className="w-5 h-5" />
           </div>
-          <div>
-            <h2 className="font-bold text-white text-sm">Owner Console</h2>
-            <p className="text-xs text-slate-400">Smart Dining Portal</p>
+          <div className="truncate">
+            <h2 className="font-bold text-white text-sm truncate">
+              {user?.restaurantName || 'Owner Console'}
+            </h2>
+            <p className="text-xs text-amber-400 font-medium capitalize flex items-center gap-1">
+              <UserCheck className="w-3 h-3" /> {user?.name || user?.role}
+            </p>
           </div>
         </div>
 
@@ -72,13 +110,13 @@ export default function OwnerDashboardLayout({
         </nav>
 
         <div className="p-4 border-t border-slate-800">
-          <Link
-            href="/login"
-            className="flex items-center space-x-2 text-xs font-medium text-slate-400 hover:text-rose-400 transition"
+          <button
+            onClick={handleSignOut}
+            className="flex items-center space-x-2 text-xs font-medium text-slate-400 hover:text-rose-400 transition w-full text-left"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out (Screen 7)</span>
-          </Link>
+          </button>
         </div>
       </aside>
 

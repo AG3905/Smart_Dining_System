@@ -3,7 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 /**
  * Helper to get a cookie value by name in browser context
  */
-function getCookie(name: string): string | null {
+export function getCookie(name: string): string | null {
   if (typeof document === 'undefined') return null;
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -11,6 +11,46 @@ function getCookie(name: string): string | null {
     return parts.pop()?.split(';').shift() || null;
   }
   return null;
+}
+
+/**
+ * Store JWT token in cookie & localStorage
+ */
+export function setAuthToken(token: string, user?: any) {
+  if (typeof document !== 'undefined') {
+    // Store in cookie for server/middleware accessibility
+    document.cookie = `auth_token=${token}; path=/; max-age=604800; SameSite=Lax`;
+    document.cookie = `token=${token}; path=/; max-age=604800; SameSite=Lax`;
+
+    if (user) {
+      localStorage.setItem('auth_user', JSON.stringify(user));
+    }
+  }
+}
+
+/**
+ * Clear JWT token and user session
+ */
+export function clearAuthToken() {
+  if (typeof document !== 'undefined') {
+    document.cookie = 'auth_token=; path=/; max-age=0; SameSite=Lax';
+    document.cookie = 'token=; path=/; max-age=0; SameSite=Lax';
+    localStorage.removeItem('auth_user');
+  }
+}
+
+/**
+ * Get stored user profile from localStorage
+ */
+export function getStoredUser(): any | null {
+  if (typeof window === 'undefined') return null;
+  const raw = localStorage.getItem('auth_user');
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
 }
 
 export interface ApiFetchOptions extends RequestInit {
@@ -53,6 +93,7 @@ export async function apiFetch<T = any>(
     try {
       const errorData = await response.json();
       if (errorData.message) errorMessage = errorData.message;
+      else if (errorData.error) errorMessage = errorData.error;
     } catch {
       // Ignore JSON parse error on non-200 non-JSON responses
     }
