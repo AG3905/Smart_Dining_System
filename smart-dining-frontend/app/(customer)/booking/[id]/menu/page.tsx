@@ -1,14 +1,4 @@
-export default function CustomerMenuPage({ params }: { params: { id: string } }) {
-  return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-full">Screen 4</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Digital Menu</h1>
-        <p className="text-slate-600 mt-1">Session ID: <code className="bg-slate-100 px-2 py-0.5 rounded text-indigo-600">{params.id}</code></p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for digital menu browsing and ordering.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { useState } from 'react'; import { ArrowRight, Minus, Plus, UtensilsCrossed } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Button } from '@/components/ui/Button'; import { Badge } from '@/components/ui/Badge';
+const items = [['Truffle pasta','Wild mushroom, parmesan','$24'],['Crispy chicken','Herbs, lemon aioli','$19'],['Garden bowl','Seasonal vegetables, tahini','$14']];
+export default function MenuPage() { const [cart, setCart] = useState(0); return <main className="min-h-screen bg-slate-50 p-5 text-slate-900 sm:p-8"><div className="mx-auto max-w-3xl space-y-8"><header><Badge tone="blue">Step 2 of 5</Badge><h1 className="mt-3 text-3xl font-bold">Choose something delicious</h1><p className="mt-2 text-sm text-slate-500">The Garden Table · Digital menu</p></header><div className="flex gap-2 overflow-auto"><Button size="sm">Popular</Button><Button size="sm" variant="secondary">Starters</Button><Button size="sm" variant="secondary">Mains</Button><Button size="sm" variant="secondary">Desserts</Button></div><div className="space-y-4">{items.map(([name, description, price]) => <Card key={name} className="flex items-center gap-4"><div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500"><UtensilsCrossed className="h-6 w-6" /></div><div className="flex-1"><h2 className="font-bold">{name}</h2><p className="mt-1 text-sm text-slate-500">{description}</p><p className="mt-2 text-sm font-bold text-slate-900">{price}</p></div><div className="flex items-center gap-2"><button onClick={() => setCart(Math.max(0, cart - 1))} className="rounded-lg border border-slate-200 p-2"><Minus className="h-4 w-4" /></button><span className="w-4 text-center text-sm font-bold">{cart ? 1 : 0}</span><button onClick={() => setCart(cart + 1)} className="rounded-lg border border-slate-200 p-2"><Plus className="h-4 w-4" /></button></div></Card>)}</div><Button className="w-full" disabled={!cart}>View cart ({cart}) <ArrowRight className="h-4 w-4" /></Button></div></main>; }

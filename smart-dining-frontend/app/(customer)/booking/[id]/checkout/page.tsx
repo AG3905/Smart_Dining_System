@@ -1,14 +1,3 @@
-export default function CustomerCheckoutPage({ params }: { params: { id: string } }) {
-  return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-pink-100 text-pink-800 rounded-full">Screen 6</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Checkout & Bill Settlement</h1>
-        <p className="text-slate-600 mt-1">Booking ID: <code className="bg-slate-100 px-2 py-0.5 rounded text-pink-600">{params.id}</code></p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for checkout process and payment gateway integration.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { CreditCard, Lock, ShieldCheck } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Button } from '@/components/ui/Button'; import { Badge } from '@/components/ui/Badge';
+export default function CheckoutPage() { return <main className="min-h-screen bg-slate-50 p-5 sm:p-8"><div className="mx-auto max-w-xl space-y-8"><header><Badge tone="blue">Step 4 of 5</Badge><h1 className="mt-3 text-3xl font-bold text-slate-900">Secure checkout</h1><p className="mt-2 text-sm text-slate-500">Your table is held while you complete the order.</p></header><Card><h2 className="flex items-center gap-2 font-bold"><CreditCard className="h-5 w-5 text-sky-500" /> Payment method</h2><label className="mt-5 flex items-center gap-3 rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm font-semibold"><input type="radio" defaultChecked name="payment" /> Pay at table</label><label className="mt-3 flex items-center gap-3 rounded-xl border border-slate-200 p-4 text-sm font-semibold"><input type="radio" name="payment" /> Card ending in 4242</label><div className="mt-6 flex items-center gap-2 text-xs text-slate-400"><Lock className="h-3.5 w-3.5" /> Payments are protected by secure encryption.</div></Card><Button className="w-full">Confirm order · $26.40 <ShieldCheck className="h-4 w-4" /></Button></div></main>; }

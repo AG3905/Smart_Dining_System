@@ -1,18 +1,2 @@
-export default function SuperAdminRestaurantDetailPage({ params }: { params: { id: string } }) {
-  return (
-    <div className="space-y-6">
-      <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-md">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30">
-          Screen 19
-        </span>
-        <h1 className="text-2xl font-bold text-white mt-3">Restaurant Detail & Admin Controls</h1>
-        <p className="text-slate-400 text-sm mt-1">
-          Restaurant ID: <code className="bg-slate-900 px-2 py-0.5 rounded text-indigo-400 font-mono text-xs">{params.id}</code>
-        </p>
-        <div className="mt-6 border-t border-slate-700 pt-4 text-slate-400 text-sm">
-          Placeholder page for tenant settings override, subscription tier management, and system access control.
-        </div>
-      </div>
-    </div>
-  );
-}
+import Link from 'next/link'; import { ArrowLeft, Building2, Users } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Badge } from '@/components/ui/Badge';
+export default function RestaurantDetailPage({ params }: { params: { id: string } }) { return <div className="space-y-8"><Link href="/restaurants" className="flex items-center gap-2 text-sm font-semibold text-indigo-600"><ArrowLeft className="h-4 w-4" /> All restaurants</Link><div><p className="text-sm font-semibold text-indigo-600">Restaurant {params.id}</p><h1 className="page-heading mt-1">The Garden Table</h1><p className="page-subheading">Tenant profile, team access, and platform activity.</p></div><div className="grid gap-6 lg:grid-cols-[1fr_1fr]"><Card><h2 className="flex items-center gap-2 font-bold"><Building2 className="h-5 w-5 text-indigo-500" /> Profile</h2><dl className="mt-5 space-y-4 text-sm"><div className="flex justify-between"><dt className="text-slate-500">Status</dt><dd><Badge tone="green">Active</Badge></dd></div><div className="flex justify-between"><dt className="text-slate-500">Location</dt><dd className="font-semibold">New York, NY</dd></div><div className="flex justify-between"><dt className="text-slate-500">Tables</dt><dd className="font-semibold">24</dd></div></dl></Card><Card><h2 className="flex items-center gap-2 font-bold"><Users className="h-5 w-5 text-indigo-500" /> Staff access</h2><div className="mt-5 space-y-4 text-sm"><div className="flex justify-between"><span>Marcus Lee · Owner</span><Badge tone="indigo">Owner</Badge></div><div className="flex justify-between"><span>Aisha Rahman · Staff</span><Badge tone="slate">Staff</Badge></div></div></Card></div></div>; }

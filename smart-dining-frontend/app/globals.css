@@ -3,22 +3,30 @@
 @tailwind utilities;
 
 :root {
-  --bg-void: #14100C;
-  --bg-surface: #1F1712;
-  --bg-light: #F3E9DD;
-  --ember: #FF5A1F;
-  --rust: #B23A0E;
-  --amber-glow: #FFB454;
-  --text-ivory: #F3E9DD;
-  --text-muted: #9C8A79;
-  --free-green: #6FCF7A;
-  --occupied-red: #E1462C;
+  --bg-void: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-light: #f1f5f9;
+  --ember: #f59e0b;
+  --rust: #ea580c;
+  --amber-glow: #fbbf24;
+  --text-ivory: #0f172a;
+  --text-muted: #64748b;
+  --free-green: #10b981;
+  --occupied-red: #ef4444;
 }
 
 body {
   color: var(--text-ivory);
   background-color: var(--bg-void);
   font-family: var(--font-body), system-ui, sans-serif;
+}
+
+::selection { background: #fef3c7; color: #92400e; }
+
+@layer components {
+  .portal-shell { @apply min-h-screen bg-slate-50 text-slate-900; }
+  .page-heading { @apply text-2xl font-bold tracking-tight text-slate-900; }
+  .page-subheading { @apply mt-1 text-sm text-slate-500; }
 }
 
 h1, h2, h3, h4, h5, h6 {

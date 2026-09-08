@@ -1,14 +1,4 @@
-export default function OwnerSalesPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Screen 13</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Sales & Analytics</h1>
-        <p className="text-slate-600 mt-1 text-sm">Revenue charts, peak hours analysis, and sales reports.</p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for financial reporting and analytics dashboards.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { BarChart3, DollarSign, TrendingUp } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { StatCard } from '@/components/ui/StatCard';
+const bars = [42,58,48,72,64,86,76,95,68,82,74,90];
+export default function SalesPage() { return <div className="space-y-8"><div><p className="text-sm font-semibold text-amber-600">Performance</p><h1 className="page-heading mt-1">Sales analytics</h1><p className="page-subheading">A simple read on revenue, demand, and popular items.</p></div><div className="grid gap-4 sm:grid-cols-3"><StatCard label="Revenue this week" value="$24,680" detail="+18.4% vs last week" icon={DollarSign} tone="amber" /><StatCard label="Average order" value="$48.20" detail="+4.2% vs last week" icon={TrendingUp} tone="green" /><StatCard label="Orders completed" value="512" detail="Across 6 service days" icon={BarChart3} tone="blue" /></div><div className="grid gap-6 lg:grid-cols-[1.4fr_.6fr]"><Card><div className="flex items-center justify-between"><div><h2 className="font-bold">Revenue trend</h2><p className="mt-1 text-sm text-slate-500">Last 12 service periods</p></div><BarChart3 className="h-5 w-5 text-amber-500" /></div><div className="mt-8 flex h-56 items-end gap-2 border-b border-slate-200">{bars.map((height, index) => <div key={index} className="group flex flex-1 flex-col items-center gap-2"><div style={{height:`${height}%`}} className="w-full rounded-t-lg bg-amber-400 transition group-hover:bg-amber-500" /><span className="text-[10px] text-slate-400">{index + 1}</span></div>)}</div></Card><Card><h2 className="font-bold">Popular items</h2><div className="mt-5 space-y-5">{[['Truffle pasta','128 sold'],['Crispy chicken','96 sold'],['Garden bowl','74 sold']].map(([item, sold], index) => <div key={item} className="flex items-center gap-3"><span className="text-sm font-bold text-slate-400">0{index+1}</span><div className="flex-1"><p className="text-sm font-semibold">{item}</p><p className="text-xs text-slate-400">{sold}</p></div></div>)}</div></Card></div></div>; }

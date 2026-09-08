@@ -83,10 +83,18 @@ export async function apiFetch<T = any>(
   const formattedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   const fullUrl = `${API_URL}${formattedEndpoint}`;
 
-  const response = await fetch(fullUrl, {
-    headers,
-    ...restOptions,
-  });
+  let response: Response;
+  try {
+    response = await fetch(fullUrl, {
+      headers,
+      ...restOptions,
+    });
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error(`Unable to reach the API at ${API_URL}. Make sure the backend is running on port 4000 and open the app at http://localhost:3000.`);
+    }
+    throw error;
+  }
 
   if (!response.ok) {
     let errorMessage = `HTTP error! status: ${response.status}`;

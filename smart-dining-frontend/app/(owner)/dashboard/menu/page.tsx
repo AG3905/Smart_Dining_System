@@ -1,14 +1,4 @@
-export default function OwnerMenuPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Screen 15</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Menu Management</h1>
-        <p className="text-slate-600 mt-1 text-sm">Category creation, dish items, pricing, and availability toggle.</p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for digital menu item editor and pricing manager.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { Edit3, Plus, UtensilsCrossed } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Badge } from '@/components/ui/Badge'; import { Button } from '@/components/ui/Button';
+const items = [['Truffle pasta','Main course','$24.00','Available'],['Crispy chicken','Main course','$19.00','Available'],['Garden bowl','Starters','$14.00','Unavailable'],['Chocolate torte','Dessert','$11.00','Available']];
+export default function MenuPage() { return <div className="space-y-8"><div className="flex items-end justify-between"><div><p className="text-sm font-semibold text-amber-600">Catalog</p><h1 className="page-heading mt-1">Menu builder</h1><p className="page-subheading">Keep your digital menu fresh, clear, and service-ready.</p></div><Button><Plus className="h-4 w-4" /> Add item</Button></div><Card className="overflow-hidden p-0"><div className="grid grid-cols-[1.4fr_1fr_1fr_1fr_auto] gap-4 border-b border-slate-100 bg-slate-50 px-6 py-4 text-xs font-bold uppercase tracking-wide text-slate-500"><span>Item</span><span>Category</span><span>Price</span><span>Availability</span><span /></div>{items.map(([name, category, price, status]) => <div key={name} className="grid grid-cols-[1.4fr_1fr_1fr_1fr_auto] items-center gap-4 border-b border-slate-100 px-6 py-5 last:border-0"><span className="flex items-center gap-3 text-sm font-semibold"><span className="rounded-lg bg-amber-50 p-2 text-amber-600"><UtensilsCrossed className="h-4 w-4" /></span>{name}</span><span className="text-sm text-slate-500">{category}</span><span className="text-sm font-bold">{price}</span><Badge tone={status === 'Available' ? 'green' : 'red'}>{status}</Badge><Button variant="ghost" size="sm" aria-label={`Edit ${name}`}><Edit3 className="h-4 w-4" /></Button></div>)}</Card></div>; }

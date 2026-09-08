@@ -1,14 +1,7 @@
-export default function OwnerOverviewPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Screen 8</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Owner Dashboard Overview</h1>
-        <p className="text-slate-600 mt-1 text-sm">Key performance metrics, active bookings, and quick operational status.</p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for high-level restaurant owner metrics and live summary widgets.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { Activity, Clock3, DollarSign, ShoppingBag, Users } from 'lucide-react';
+import { Card } from '@/components/ui/Card';
+import { StatCard } from '@/components/ui/StatCard';
+import { Badge } from '@/components/ui/Badge';
+const activity = [['Table 12 seated', '2 minutes ago', 'green'], ['Order #1048 is ready', '8 minutes ago', 'blue'], ['Table 06 requested the bill', '12 minutes ago', 'amber'], ['New party joined the queue', '18 minutes ago', 'slate']] as const;
+export default function OwnerOverviewPage() { return <div className="space-y-8"><div><p className="text-sm font-semibold text-amber-600">Tuesday, September 8</p><h1 className="page-heading mt-1">Good evening, welcome back.</h1><p className="page-subheading">Here is what is happening across your restaurant right now.</p></div><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><StatCard label="Tables occupied" value="18 / 24" detail="75% capacity" icon={Users} tone="amber" /><StatCard label="Active queue" value="12 parties" detail="Average wait 16 min" icon={Clock3} tone="blue" /><StatCard label="Today's orders" value="84" detail="12 currently preparing" icon={ShoppingBag} tone="green" /><StatCard label="Today's revenue" value="$4,286" detail="+12.8% from last Tuesday" icon={DollarSign} tone="indigo" /></div><div className="grid gap-6 lg:grid-cols-[1.3fr_.7fr]"><Card><div className="flex items-center justify-between"><div><h2 className="font-bold">Service pulse</h2><p className="mt-1 text-sm text-slate-500">Live activity from the floor and kitchen</p></div><Activity className="h-5 w-5 text-amber-500" /></div><div className="mt-6 space-y-4">{activity.map(([title, time, tone]) => <div key={title} className="flex items-center gap-3"><span className={`h-2.5 w-2.5 rounded-full ${tone === 'green' ? 'bg-emerald-500' : tone === 'blue' ? 'bg-sky-500' : tone === 'amber' ? 'bg-amber-500' : 'bg-slate-400'}`} /><div className="flex-1"><p className="text-sm font-semibold text-slate-800">{title}</p><p className="text-xs text-slate-400">{time}</p></div><Badge tone={tone === 'green' ? 'green' : tone === 'blue' ? 'blue' : tone === 'amber' ? 'amber' : 'slate'}>{tone === 'green' ? 'Floor' : tone === 'blue' ? 'Kitchen' : 'Update'}</Badge></div>)}</div></Card><Card><h2 className="font-bold">Quick snapshot</h2><div className="mt-5 space-y-4"><div className="flex justify-between text-sm"><span className="text-slate-500">Avg. table turn</span><strong>58 min</strong></div><div className="flex justify-between text-sm"><span className="text-slate-500">Guest satisfaction</span><strong>4.8 / 5</strong></div><div className="flex justify-between text-sm"><span className="text-slate-500">Kitchen completion</span><strong>92%</strong></div></div></Card></div></div>; }

@@ -1,28 +1,3 @@
-import Link from 'next/link';
-
-export default function SuperAdminRestaurantsPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-md">
-        <div className="flex justify-between items-start">
-          <div>
-            <span className="text-xs font-semibold px-2.5 py-1 bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30">
-              Screen 18
-            </span>
-            <h1 className="text-2xl font-bold text-white mt-3">All Restaurants</h1>
-            <p className="text-slate-400 text-sm mt-1">Platform tenant list, onboarding, and subscription controls.</p>
-          </div>
-          <Link
-            href="/restaurants/demo-restaurant-123"
-            className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-md font-medium transition"
-          >
-            View Sample Detail (Screen 19)
-          </Link>
-        </div>
-        <div className="mt-6 border-t border-slate-700 pt-4 text-slate-400 text-sm">
-          Placeholder page for global restaurant management directory.
-        </div>
-      </div>
-    </div>
-  );
-}
+import Link from 'next/link'; import { ArrowRight, Building2, Users } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Badge } from '@/components/ui/Badge';
+const restaurants = [['The Garden Table','New York · 24 tables','Active','184 guests'],['Ember & Grain','Austin · 18 tables','Active','96 guests'],['Harbor House','Seattle · 32 tables','Review','—']];
+export default function RestaurantsPage() { return <div className="space-y-8"><div><p className="text-sm font-semibold text-indigo-600">Platform directory</p><h1 className="page-heading mt-1">All restaurants</h1><p className="page-subheading">Monitor tenant health and jump into restaurant details.</p></div><div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{restaurants.map(([name, detail, status, guests], index) => <Card key={name}><div className="flex items-start justify-between"><div className="rounded-xl bg-indigo-50 p-3 text-indigo-600"><Building2 className="h-5 w-5" /></div><Badge tone={status === 'Active' ? 'green' : 'amber'}>{status}</Badge></div><h2 className="mt-6 font-bold">{name}</h2><p className="mt-1 text-sm text-slate-500">{detail}</p><div className="mt-5 flex items-center gap-2 text-xs text-slate-500"><Users className="h-3.5 w-3.5" /> {guests} today</div><Link href={`/restaurants/${index + 1}`} className="mt-6 flex items-center gap-2 text-sm font-bold text-indigo-600">View details <ArrowRight className="h-4 w-4" /></Link></Card>)}</div></div>; }

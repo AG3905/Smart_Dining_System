@@ -1,14 +1,4 @@
-export default function OwnerBillsPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Screen 12</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Bills & Payments</h1>
-        <p className="text-slate-600 mt-1 text-sm">Settled bills, split payments, and payment history.</p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for table billing details and payment processing logs.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { Download, Receipt } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Badge } from '@/components/ui/Badge'; import { Button } from '@/components/ui/Button';
+const bills = [['INV-2084','Table 12','The Johnson party','$142.80','Paid'],['INV-2083','Table 06','Maya & friends','$86.40','Pending'],['INV-2082','Table 03','The Patel family','$214.20','Paid'],['INV-2081','Table 18','Alex Morgan','$58.00','Paid']];
+export default function BillsPage() { return <div className="space-y-8"><div className="flex items-end justify-between"><div><p className="text-sm font-semibold text-amber-600">Finance</p><h1 className="page-heading mt-1">Bills & payments</h1><p className="page-subheading">Review invoices, payment status, and service totals.</p></div><Button variant="outline"><Download className="h-4 w-4" /> Export</Button></div><Card className="overflow-hidden p-0"><div className="grid grid-cols-[1fr_1fr_1.5fr_1fr_1fr] gap-4 border-b border-slate-100 bg-slate-50 px-6 py-4 text-xs font-bold uppercase tracking-wide text-slate-500"><span>Invoice</span><span>Table</span><span>Guest</span><span>Total</span><span>Status</span></div>{bills.map(([id, table, guest, total, status]) => <div key={id} className="grid grid-cols-[1fr_1fr_1.5fr_1fr_1fr] items-center gap-4 border-b border-slate-100 px-6 py-5 last:border-0"><span className="flex items-center gap-2 text-sm font-semibold"><Receipt className="h-4 w-4 text-slate-400" />{id}</span><span className="text-sm text-slate-500">{table}</span><span className="text-sm text-slate-600">{guest}</span><span className="text-sm font-bold">{total}</span><Badge tone={status === 'Paid' ? 'green' : 'amber'}>{status}</Badge></div>)}</Card></div>; }

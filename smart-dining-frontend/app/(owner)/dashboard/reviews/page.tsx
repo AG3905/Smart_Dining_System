@@ -1,14 +1,4 @@
-export default function OwnerReviewsPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Screen 14</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Customer Feedback & Reviews</h1>
-        <p className="text-slate-600 mt-1 text-sm">Ratings, customer comments, and sentiment feedback.</p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for reviewing diner feedback and rating scores.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { MessageSquare, Star } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Badge } from '@/components/ui/Badge';
+const reviews = [['Priya Shah','The service was warm and the tasting menu was excellent. We will be back.','5.0','Today'],['Daniel Kim','Loved the quick digital ordering and the food arrived perfectly timed.','4.5','Yesterday'],['Sofia Martins','Beautiful room and thoughtful staff. The queue updates were helpful.','4.8','Yesterday']];
+export default function ReviewsPage() { return <div className="space-y-8"><div><p className="text-sm font-semibold text-amber-600">Guest voice</p><h1 className="page-heading mt-1">Reviews</h1><p className="page-subheading">See what guests are saying and spot opportunities to improve.</p></div><div className="grid gap-4 sm:grid-cols-3"><Card><p className="text-sm text-slate-500">Average rating</p><p className="mt-2 flex items-center gap-2 text-3xl font-bold">4.8 <Star className="h-6 w-6 fill-amber-400 text-amber-400" /></p></Card><Card><p className="text-sm text-slate-500">Reviews this month</p><p className="mt-2 text-3xl font-bold">184</p></Card><Card><p className="text-sm text-slate-500">Response rate</p><p className="mt-2 text-3xl font-bold">96%</p></Card></div><div className="grid gap-4 lg:grid-cols-3">{reviews.map(([name, comment, rating, date]) => <Card key={name}><div className="flex items-start justify-between"><div><p className="font-bold">{name}</p><p className="mt-1 text-xs text-slate-400">{date}</p></div><Badge tone="amber"><Star className="mr-1 h-3 w-3 fill-current" /> {rating}</Badge></div><p className="mt-5 text-sm leading-6 text-slate-600">“{comment}”</p><button className="mt-5 flex items-center gap-2 text-xs font-bold text-amber-600"><MessageSquare className="h-3.5 w-3.5" /> Reply</button></Card>)}</div></div>; }

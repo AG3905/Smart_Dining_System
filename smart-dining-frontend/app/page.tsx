@@ -1,255 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
-import { Activity, CheckCircle2, AlertCircle, RefreshCw, ExternalLink, Shield, Store, User } from 'lucide-react';
+import { Activity, ArrowRight, CalendarCheck, ChefHat, ClipboardList, Clock3, Heart, LineChart, RefreshCw, Shield, Sparkles, UtensilsCrossed } from 'lucide-react';
+import { Badge } from '@/components/ui/Badge';
+
+const features = [
+  { icon: CalendarCheck, title: 'QR table booking', text: 'Let guests reserve a table in seconds, from any device.' },
+  { icon: Clock3, title: 'Dynamic queue', text: 'Turn waiting time into a clear, calm guest experience.' },
+  { icon: UtensilsCrossed, title: 'Digital menu', text: 'Keep menus current and orders moving without friction.' },
+  { icon: ChefHat, title: 'Kitchen sync', text: 'Give every order a clear path from table to kitchen.' },
+  { icon: Heart, title: 'Guest loyalty', text: 'Build the relationships that bring people back.' },
+  { icon: LineChart, title: 'Useful analytics', text: 'See what is working across service, sales, and demand.' },
+];
 
 export default function LandingPage() {
-  const [healthStatus, setHealthStatus] = useState<{ status?: string } | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const checkHealth = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await apiFetch<{ status: string }>('/api/health');
-      setHealthStatus(res);
-    } catch (err: any) {
-      setError(err.message || 'Failed to connect to backend server');
-      setHealthStatus(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    checkHealth();
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 p-8">
-      <div className="max-w-5xl mx-auto space-y-8">
-
-        {/* Header & Health Check Section */}
-        <div className="bg-slate-800/80 backdrop-blur border border-slate-700 p-6 rounded-2xl shadow-xl">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div>
-              <span className="text-xs font-semibold px-2.5 py-1 bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">
-                Screen 21 (Landing Page)
-              </span>
-              <h1 className="text-3xl font-extrabold text-white mt-2">Smart Dining Platform</h1>
-              <p className="text-slate-400 text-sm mt-1">
-                Integrated solution for Customers, Restaurant Owners, and Super Admins.
-              </p>
-            </div>
-
-            <div className="flex items-center space-x-3 bg-slate-900/90 px-4 py-3 rounded-xl border border-slate-700 w-full md:w-auto">
-              <Activity className="w-5 h-5 text-indigo-400 shrink-0" />
-              <div>
-                <div className="text-xs text-slate-400 font-medium">Backend Health Check</div>
-                <div className="flex items-center space-x-2 mt-0.5">
-                  {loading && (
-                    <span className="flex items-center text-xs text-amber-400 font-medium">
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin mr-1" /> Connecting...
-                    </span>
-                  )}
-                  {!loading && healthStatus && (
-                    <span className="flex items-center text-xs text-emerald-400 font-semibold">
-                      <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
-                      Status: {JSON.stringify(healthStatus)}
-                    </span>
-                  )}
-                  {!loading && error && (
-                    <span className="flex items-center text-xs text-rose-400 font-medium">
-                      <AlertCircle className="w-3.5 h-3.5 mr-1" /> Error
-                    </span>
-                  )}
-                </div>
-              </div>
-              <button
-                onClick={checkHealth}
-                className="ml-auto p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition"
-                title="Retry Connection"
-              >
-                <RefreshCw className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {error && (
-            <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/30 text-rose-300 rounded-lg text-xs font-mono">
-              Backend Error: {error}. Ensure smart-dining-backend is running on http://localhost:4000
-            </div>
-          )}
-        </div>
-
-        {/* Screen Inventory Navigation Directory */}
-        <div className="space-y-6">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <span>Screen Inventory Route Index</span>
-            <span className="text-xs font-normal text-slate-400 px-2 py-0.5 bg-slate-800 rounded-md border border-slate-700">
-              21 Placeholder Screens
-            </span>
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            {/* Customer Portal (Screens 1 - 6) */}
-            <div className="bg-slate-800 border border-slate-700/80 rounded-xl p-5 space-y-3">
-              <div className="flex items-center space-x-2 text-sky-400 font-semibold text-sm border-b border-slate-700 pb-3">
-                <User className="w-4 h-4" />
-                <span>Customer Portal (Screens 1 - 6)</span>
-              </div>
-              <ul className="space-y-2 text-xs">
-                <li>
-                  <Link href="/book/rest-1" className="flex items-center justify-between text-slate-300 hover:text-sky-300 hover:underline">
-                    <span>Screen 1: Book Table</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/booking/bk-101/confirmation" className="flex items-center justify-between text-slate-300 hover:text-sky-300 hover:underline">
-                    <span>Screen 2: Confirmation</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/booking/bk-101/queue" className="flex items-center justify-between text-slate-300 hover:text-sky-300 hover:underline">
-                    <span>Screen 3: Queue Status</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/booking/bk-101/menu" className="flex items-center justify-between text-slate-300 hover:text-sky-300 hover:underline">
-                    <span>Screen 4: Digital Menu</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/booking/bk-101/cart" className="flex items-center justify-between text-slate-300 hover:text-sky-300 hover:underline">
-                    <span>Screen 5: Food Cart</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/booking/bk-101/checkout" className="flex items-center justify-between text-slate-300 hover:text-sky-300 hover:underline">
-                    <span>Screen 6: Checkout</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Owner Portal (Screens 7 - 16) */}
-            <div className="bg-slate-800 border border-slate-700/80 rounded-xl p-5 space-y-3">
-              <div className="flex items-center space-x-2 text-amber-400 font-semibold text-sm border-b border-slate-700 pb-3">
-                <Store className="w-4 h-4" />
-                <span>Owner Portal (Screens 7 - 16)</span>
-              </div>
-              <ul className="space-y-2 text-xs">
-                <li>
-                  <Link href="/login" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 7: Owner Login</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 8: Dashboard Overview</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/layout" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 9: Floor Plan Layout</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/queue" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 10: Queue Mgmt</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/orders" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 11: Live Orders</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/bills" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 12: Bills & Payments</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/sales" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 13: Sales Analytics</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/reviews" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 14: Customer Reviews</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/menu" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 15: Menu Builder</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/settings" className="flex items-center justify-between text-slate-300 hover:text-amber-300 hover:underline">
-                    <span>Screen 16: Settings</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Super-Admin Portal (Screens 17 - 20) */}
-            <div className="bg-slate-800 border border-slate-700/80 rounded-xl p-5 space-y-3">
-              <div className="flex items-center space-x-2 text-indigo-400 font-semibold text-sm border-b border-slate-700 pb-3">
-                <Shield className="w-4 h-4" />
-                <span>Super Admin (Screens 17 - 20)</span>
-              </div>
-              <ul className="space-y-2 text-xs">
-                <li>
-                  <Link href="/admin-login" className="flex items-center justify-between text-slate-300 hover:text-indigo-300 hover:underline">
-                    <span>Screen 17: Admin Login</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/restaurants" className="flex items-center justify-between text-slate-300 hover:text-indigo-300 hover:underline">
-                    <span>Screen 18: All Restaurants</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/restaurants/sample-rest-id" className="flex items-center justify-between text-slate-300 hover:text-indigo-300 hover:underline">
-                    <span>Screen 19: Restaurant Detail</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/audit-log" className="flex items-center justify-between text-slate-300 hover:text-indigo-300 hover:underline">
-                    <span>Screen 20: Audit Log</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </div>
-  );
+  const [health, setHealth] = useState<'checking' | 'online' | 'offline'>('checking');
+  const checkHealth = async () => { setHealth('checking'); try { await apiFetch('/api/health'); setHealth('online'); } catch { setHealth('offline'); } };
+  useEffect(() => { checkHealth(); }, []);
+  return <main className="min-h-screen overflow-hidden bg-slate-50 text-slate-900">
+    <section className="relative border-b border-slate-200 bg-white"><div className="absolute right-0 top-0 h-full w-1/3 bg-amber-50/70 [clip-path:polygon(35%_0,100%_0,100%_100%,0_100%)]" /><div className="relative mx-auto max-w-7xl px-6 pb-20 pt-7 lg:px-10"><nav className="flex items-center justify-between"><Link href="/" className="flex items-center gap-3 font-bold"><span className="rounded-xl bg-amber-500 p-2 text-white"><UtensilsCrossed className="h-5 w-5" /></span><span>Smart Dining</span></Link><div className="flex items-center gap-3"><Link href="/login" className="hidden text-sm font-semibold text-slate-600 sm:block">Owner login</Link><Link href="/admin-login" className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Admin portal</Link></div></nav><div className="grid items-center gap-12 pt-20 lg:grid-cols-[1.05fr_.95fr]"><div><Badge tone="amber"><Sparkles className="mr-1 h-3.5 w-3.5" /> One platform, every service moment</Badge><h1 className="mt-6 max-w-2xl text-5xl font-bold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">From reservation to <span className="text-amber-500">delicious experience.</span></h1><p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">Smart Dining brings bookings, queues, menus, kitchens, and insights into one connected platform for modern restaurants.</p><div className="mt-8 flex flex-wrap gap-3"><Link href="/book/rest-1" className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-5 py-3.5 font-semibold text-white shadow-lg shadow-amber-500/20 hover:bg-amber-600">Book a table <ArrowRight className="h-4 w-4" /></Link><Link href="/login" className="rounded-xl border border-slate-200 bg-white px-5 py-3.5 font-semibold text-slate-700 hover:bg-slate-50">Run your restaurant</Link></div></div><div className="relative"><div className="rounded-[2rem] border border-amber-100 bg-gradient-to-br from-amber-100 via-white to-sky-50 p-5 shadow-xl shadow-slate-200/60"><div className="rounded-2xl bg-slate-900 p-6 text-white"><div className="flex items-center justify-between"><span className="text-sm text-slate-300">Tonight at a glance</span><span className="h-2.5 w-2.5 rounded-full bg-emerald-400" /></div><p className="mt-8 text-4xl font-bold">128 <span className="text-base font-medium text-slate-400">guests served</span></p><div className="mt-8 grid grid-cols-3 gap-2"><div className="rounded-xl bg-white/10 p-3"><p className="text-xs text-slate-400">Tables</p><p className="mt-1 font-bold">18 / 24</p></div><div className="rounded-xl bg-white/10 p-3"><p className="text-xs text-slate-400">Queue</p><p className="mt-1 font-bold">06 min</p></div><div className="rounded-xl bg-white/10 p-3"><p className="text-xs text-slate-400">Orders</p><p className="mt-1 font-bold">42</p></div></div></div></div></div></div></div></section>
+    <section className="mx-auto max-w-7xl px-6 py-20 lg:px-10"><div className="max-w-xl"><p className="text-sm font-bold uppercase tracking-[.18em] text-amber-600">Everything connected</p><h2 className="mt-3 text-3xl font-bold tracking-tight">A calmer operation, a better table.</h2></div><div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{features.map(({ icon: Icon, title, text }) => <div key={title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><div className="w-fit rounded-xl bg-slate-100 p-3 text-slate-700"><Icon className="h-5 w-5" /></div><h3 className="mt-5 font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{text}</p></div>)}</div></section>
+    <section className="bg-slate-900 px-6 py-20 text-white"><div className="mx-auto max-w-7xl"><div className="max-w-xl"><p className="text-sm font-bold uppercase tracking-[.18em] text-amber-400">Choose your path</p><h2 className="mt-3 text-3xl font-bold">The right view for every role.</h2></div><div className="mt-10 grid gap-4 md:grid-cols-3">{[{ href:'/book/rest-1', icon:CalendarCheck, title:"I'm a Customer", text:'Book, browse, order, and enjoy the flow.', tone:'sky'}, { href:'/login', icon:ClipboardList, title:'Restaurant Owner Login', text:'Run service with clarity from one console.', tone:'amber'}, { href:'/admin-login', icon:Shield, title:'Super Admin Login', text:'Keep the whole platform healthy and accountable.', tone:'indigo'}].map(({href, icon:Icon, title, text, tone}) => <Link key={title} href={href} className="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10"><Icon className={`h-6 w-6 ${tone === 'sky' ? 'text-sky-400' : tone === 'amber' ? 'text-amber-400' : 'text-indigo-400'}`} /><h3 className="mt-6 font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-400">{text}</p><ArrowRight className="mt-6 h-4 w-4 text-slate-500 transition group-hover:translate-x-1 group-hover:text-white" /></Link>)}</div></div></section>
+    <footer className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 text-xs text-slate-500 lg:px-10"><span>Smart Dining System</span><button onClick={checkHealth} className="flex items-center gap-2 hover:text-slate-900"><Activity className="h-3.5 w-3.5" /><span>Backend {health === 'checking' ? 'checking' : health === 'online' ? 'online' : 'offline'}</span><RefreshCw className={`h-3 w-3 ${health === 'checking' ? 'animate-spin' : ''}`} /></button></footer>
+  </main>;
 }

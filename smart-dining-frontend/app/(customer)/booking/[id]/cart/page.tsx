@@ -1,14 +1,3 @@
-export default function CustomerCartPage({ params }: { params: { id: string } }) {
-  return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full">Screen 5</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Food Cart</h1>
-        <p className="text-slate-600 mt-1">Booking ID: <code className="bg-slate-100 px-2 py-0.5 rounded text-purple-600">{params.id}</code></p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for customer shopping cart & selected food items.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { ArrowRight, ShoppingBag } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Button } from '@/components/ui/Button'; import { Badge } from '@/components/ui/Badge';
+export default function CartPage() { return <main className="min-h-screen bg-slate-50 p-5 sm:p-8"><div className="mx-auto max-w-xl space-y-8"><header><Badge tone="blue">Step 3 of 5</Badge><h1 className="mt-3 text-3xl font-bold text-slate-900">Your order</h1><p className="mt-2 text-sm text-slate-500">Review your selections before checkout.</p></header><Card><div className="flex items-center gap-3 border-b border-slate-100 pb-5"><ShoppingBag className="h-5 w-5 text-sky-500" /><div><p className="font-bold">Truffle pasta</p><p className="text-sm text-slate-500">1 × $24.00</p></div><strong className="ml-auto">$24.00</strong></div><div className="mt-5 space-y-3 text-sm"><div className="flex justify-between text-slate-500"><span>Subtotal</span><span>$24.00</span></div><div className="flex justify-between text-slate-500"><span>Service fee</span><span>$2.40</span></div><div className="flex justify-between border-t border-slate-100 pt-3 text-base font-bold text-slate-900"><span>Total</span><span>$26.40</span></div></div></Card><Button className="w-full">Continue to checkout <ArrowRight className="h-4 w-4" /></Button></div></main>; }

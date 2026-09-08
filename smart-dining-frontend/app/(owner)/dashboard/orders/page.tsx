@@ -1,14 +1,4 @@
-export default function OwnerOrdersPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Screen 11</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Live Kitchen & Order Management</h1>
-        <p className="text-slate-600 mt-1 text-sm">Real-time KDS (Kitchen Display System) and active order status.</p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for live kitchen order pipeline and ticket tracking.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { ChefHat, Clock3, MoreHorizontal } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Badge } from '@/components/ui/Badge'; import { Button } from '@/components/ui/Button';
+const columns = [{ title:'Pending', tone:'blue', orders:[['#1049','Table 08','2 items','3 min']] },{ title:'Preparing', tone:'amber', orders:[['#1048','Table 12','4 items','8 min'],['#1046','Table 03','3 items','14 min']] },{ title:'Ready', tone:'green', orders:[['#1044','Table 18','2 items','2 min']] },{ title:'Served', tone:'slate', orders:[['#1041','Table 04','5 items','18 min']] }];
+export default function OrdersPage() { return <div className="space-y-8"><div><p className="text-sm font-semibold text-amber-600">Kitchen coordination</p><h1 className="page-heading mt-1">Live orders</h1><p className="page-subheading">A shared view of every order in service.</p></div><div className="grid gap-4 xl:grid-cols-4">{columns.map(column => <div key={column.title} className="min-h-72 rounded-2xl bg-slate-100/70 p-3"><div className="flex items-center justify-between px-2 py-2"><h2 className="font-bold">{column.title}</h2><Badge tone={column.tone as 'green'|'amber'|'slate'|'blue'}>{column.orders.length}</Badge></div><div className="space-y-3">{column.orders.map(([id, table, items, time]) => <Card key={id} className="p-4"><div className="flex items-center justify-between"><span className="font-bold">{id}</span><Button variant="ghost" size="sm" aria-label="More order actions"><MoreHorizontal className="h-4 w-4" /></Button></div><p className="mt-3 text-sm font-semibold text-slate-700">{table}</p><p className="mt-1 text-xs text-slate-500">{items}</p><div className="mt-4 flex items-center gap-1 text-xs text-slate-400"><Clock3 className="h-3.5 w-3.5" /> {time}</div></Card>)}</div></div>)}</div></div>; }

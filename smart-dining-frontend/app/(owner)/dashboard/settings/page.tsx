@@ -1,14 +1,3 @@
-export default function OwnerSettingsPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Screen 16</span>
-        <h1 className="text-2xl font-bold text-slate-900 mt-3">Restaurant Settings</h1>
-        <p className="text-slate-600 mt-1 text-sm">Opening hours, notification preferences, table rules, and profile setup.</p>
-        <div className="mt-6 border-t pt-4 text-slate-500 text-sm">
-          Placeholder page for restaurant operational configurations.
-        </div>
-      </div>
-    </div>
-  );
-}
+'use client';
+import { Bell, Clock3, Save, Store, Table2 } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Button } from '@/components/ui/Button';
+export default function SettingsPage() { return <div className="space-y-8"><div><p className="text-sm font-semibold text-amber-600">Workspace</p><h1 className="page-heading mt-1">Restaurant settings</h1><p className="page-subheading">Configure the details your team and guests rely on.</p></div><div className="grid gap-6 lg:grid-cols-2"><Card><h2 className="flex items-center gap-2 font-bold"><Store className="h-5 w-5 text-amber-500" /> Restaurant profile</h2><div className="mt-5 space-y-4"><label className="block text-sm font-medium text-slate-700">Restaurant name<input defaultValue="The Garden Table" className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-amber-400" /></label><label className="block text-sm font-medium text-slate-700">Address<input defaultValue="18 Market Street" className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-amber-400" /></label></div></Card><Card><h2 className="flex items-center gap-2 font-bold"><Clock3 className="h-5 w-5 text-amber-500" /> Service hours</h2><div className="mt-5 space-y-4"><label className="block text-sm font-medium text-slate-700">Opening time<input type="time" defaultValue="11:00" className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm" /></label><label className="block text-sm font-medium text-slate-700">Closing time<input type="time" defaultValue="22:00" className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm" /></label></div></Card><Card><h2 className="flex items-center gap-2 font-bold"><Table2 className="h-5 w-5 text-amber-500" /> Table & QR settings</h2><p className="mt-2 text-sm text-slate-500">Guests can scan a table QR code to open the menu and join service.</p><label className="mt-5 flex items-center justify-between text-sm font-medium"><span>Accept walk-ins</span><input type="checkbox" defaultChecked className="h-4 w-4 accent-amber-500" /></label></Card><Card><h2 className="flex items-center gap-2 font-bold"><Bell className="h-5 w-5 text-amber-500" /> Notifications</h2><div className="mt-5 space-y-4 text-sm font-medium"><label className="flex items-center gap-3"><input type="checkbox" defaultChecked className="h-4 w-4 accent-amber-500" /> New booking alerts</label><label className="flex items-center gap-3"><input type="checkbox" defaultChecked className="h-4 w-4 accent-amber-500" /> Kitchen order updates</label></div></Card></div><Button><Save className="h-4 w-4" /> Save changes</Button></div>; }

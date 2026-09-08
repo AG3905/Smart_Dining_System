@@ -13,7 +13,7 @@ export function Button({
   children,
   ...props
 }: ButtonProps) {
-  const base = "inline-flex items-center justify-center font-semibold rounded-xl transition duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none";
+  const base = "inline-flex items-center justify-center font-semibold rounded-xl transition duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-amber-400/40";
   
   const sizeClasses = {
     sm: "px-3 py-1.5 text-xs gap-1.5",
@@ -22,11 +22,11 @@ export function Button({
   };
 
   const variantClasses = {
-    primary: "bg-ember hover:bg-rust text-white shadow-lg shadow-ember/20 border border-ember/30",
-    secondary: "bg-surface-light hover:bg-surface text-ivory border border-white/10",
-    outline: "border border-ember/40 text-ember hover:bg-ember/10",
-    destructive: "bg-occupied-red hover:bg-rose-700 text-white shadow-md shadow-occupied-red/20",
-    ghost: "text-muted hover:text-ivory hover:bg-white/5",
+    primary: "bg-amber-500 hover:bg-amber-600 text-white shadow-sm shadow-amber-500/20",
+    secondary: "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200",
+    outline: "border border-amber-300 text-amber-700 hover:bg-amber-50",
+    destructive: "bg-red-500 hover:bg-red-600 text-white shadow-sm",
+    ghost: "text-slate-500 hover:text-slate-900 hover:bg-slate-100",
   };
 
   return (

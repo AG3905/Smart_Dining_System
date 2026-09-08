@@ -1,16 +1,3 @@
-export default function SuperAdminAuditLogPage() {
-  return (
-    <div className="space-y-6">
-      <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-md">
-        <span className="text-xs font-semibold px-2.5 py-1 bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30">
-          Screen 20
-        </span>
-        <h1 className="text-2xl font-bold text-white mt-3">System Audit Log</h1>
-        <p className="text-slate-400 text-sm mt-1">Platform activity history, security access logs, and tenant mutations.</p>
-        <div className="mt-6 border-t border-slate-700 pt-4 text-slate-400 text-sm">
-          Placeholder page for system-wide audit logging and trace records.
-        </div>
-      </div>
-    </div>
-  );
-}
+import { Activity } from 'lucide-react'; import { Card } from '@/components/ui/Card'; import { Badge } from '@/components/ui/Badge';
+const events = [['Restaurant created','Aisha Rahman','2 minutes ago','green'],['Menu updated','admin@smartdining.com','18 minutes ago','blue'],['Owner role changed','Marcus Lee','1 hour ago','amber'],['Restaurant suspended','admin@smartdining.com','Yesterday','red']];
+export default function AuditLogPage() { return <div className="space-y-8"><div><p className="text-sm font-semibold text-indigo-600">Governance</p><h1 className="page-heading mt-1">Audit log</h1><p className="page-subheading">A chronological record of important platform events.</p></div><Card className="overflow-hidden p-0"><div className="grid grid-cols-[1.5fr_1fr_1fr_auto] gap-4 border-b border-slate-100 bg-slate-50 px-6 py-4 text-xs font-bold uppercase tracking-wide text-slate-500"><span>Event</span><span>Actor</span><span>When</span><span>Type</span></div>{events.map(([event, actor, time, tone]) => <div key={event} className="grid grid-cols-[1.5fr_1fr_1fr_auto] items-center gap-4 border-b border-slate-100 px-6 py-5 last:border-0"><span className="flex items-center gap-2 text-sm font-semibold"><Activity className="h-4 w-4 text-indigo-500" />{event}</span><span className="text-sm text-slate-500">{actor}</span><span className="text-sm text-slate-500">{time}</span><Badge tone={tone as 'green'|'blue'|'amber'|'red'}>Logged</Badge></div>)}</Card></div>; }

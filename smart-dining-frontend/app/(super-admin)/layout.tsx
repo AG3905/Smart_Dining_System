@@ -4,101 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { getCookie, getStoredUser, clearAuthToken } from '@/lib/api';
-import { ShieldCheck, Building2, ClipboardList, LogOut, Loader2, ShieldAlert } from 'lucide-react';
+import { Building2, ClipboardList, LayoutDashboard, LogOut, Loader2, Menu, ShieldCheck, X } from 'lucide-react';
 
-const adminNavItems = [
-  { name: 'Restaurants Directory (Screen 18)', href: '/restaurants', icon: Building2 },
-  { name: 'System Audit Log (Screen 20)', href: '/audit-log', icon: ClipboardList },
-];
-
-export default function SuperAdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [user, setUser] = useState<any | null>(null);
-  const [checkingAuth, setCheckingAuth] = useState(true);
-
-  useEffect(() => {
-    const token = getCookie('auth_token') || getCookie('token');
-    const storedUser = getStoredUser();
-
-    if (!token || !storedUser || storedUser.role !== 'super_admin') {
-      clearAuthToken();
-      router.push('/admin-login');
-    } else {
-      setUser(storedUser);
-      setCheckingAuth(false);
-    }
-  }, [router]);
-
-  const handleSignOut = () => {
-    clearAuthToken();
-    router.push('/admin-login');
-  };
-
-  if (checkingAuth) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-100 space-y-4">
-        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
-        <p className="text-sm font-medium text-slate-400">Verifying Super Admin Session...</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen flex flex-col bg-slate-900 text-slate-100">
-      {/* Super Admin Top Header Navigation */}
-      <header className="bg-slate-950 border-b border-slate-800 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-indigo-600 rounded-lg text-white">
-            <ShieldCheck className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="font-bold text-white text-base">Super Admin Console</h1>
-            <p className="text-xs text-indigo-400 flex items-center gap-1 font-mono">
-              <ShieldAlert className="w-3 h-3" /> {user?.name || 'Super Admin'} ({user?.email})
-            </p>
-          </div>
-        </div>
-
-        <nav className="flex items-center space-x-2">
-          {adminNavItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = pathname === item.href;
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-xs font-medium transition ${
-                  isActive
-                    ? 'bg-indigo-600 text-white font-semibold shadow-sm'
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{item.name}</span>
-              </Link>
-            );
-          })}
-
-          <button
-            onClick={handleSignOut}
-            className="flex items-center space-x-1.5 px-3 py-2 text-xs font-medium text-slate-400 hover:text-rose-400 transition ml-4 border-l border-slate-800"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>Sign Out (Screen 17)</span>
-          </button>
-        </nav>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="flex-1 p-8 max-w-7xl mx-auto w-full">
-        {children}
-      </main>
-    </div>
-  );
+const adminNav = [{ name: 'Restaurants', href: '/restaurants', icon: Building2 }, { name: 'Audit log', href: '/audit-log', icon: ClipboardList }];
+export default function SuperAdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname(); const router = useRouter(); const [user, setUser] = useState<any>(null); const [checking, setChecking] = useState(true); const [open, setOpen] = useState(false);
+  useEffect(() => { const token = getCookie('auth_token') || getCookie('token'); const stored = getStoredUser(); if (!token || !stored || stored.role !== 'super_admin') { clearAuthToken(); router.push('/admin-login'); } else { setUser(stored); setChecking(false); } }, [router]);
+  if (checking) return <div className="flex min-h-screen items-center justify-center bg-slate-50"><Loader2 className="h-7 w-7 animate-spin text-indigo-500" /></div>;
+  const signOut = () => { clearAuthToken(); router.push('/admin-login'); };
+  return <div className="portal-shell flex"><button aria-label="Open navigation" onClick={() => setOpen(!open)} className="fixed left-4 top-4 z-50 rounded-xl bg-white p-2.5 shadow-md lg:hidden">{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button>{open && <div onClick={() => setOpen(false)} className="fixed inset-0 z-30 bg-slate-900/20 lg:hidden" />}<aside className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-slate-200 bg-white transition-transform lg:static lg:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'}`}><div className="flex items-center gap-3 border-b border-slate-100 px-6 py-5"><div className="rounded-xl bg-indigo-500 p-2.5 text-white"><ShieldCheck className="h-5 w-5" /></div><div><p className="font-bold">Platform control</p><p className="text-xs text-indigo-600">Super admin</p></div></div><nav className="flex-1 space-y-1 p-4">{adminNav.map(({ name, href, icon: Icon }) => <Link key={href} href={href} onClick={() => setOpen(false)} className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium ${pathname === href ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500 hover:bg-slate-50'}`}><Icon className="h-4 w-4" />{name}</Link>)}</nav><div className="border-t border-slate-100 p-4"><button onClick={signOut} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600"><LogOut className="h-4 w-4" /> Sign out</button></div></aside><main className="min-w-0 flex-1"><header className="flex h-20 items-center justify-end border-b border-slate-200 bg-white px-6 lg:px-10"><div className="text-right"><p className="text-sm font-semibold">{user?.name || 'Super Admin'}</p><p className="text-xs text-slate-500">{user?.email || 'Platform administrator'}</p></div><div className="ml-3 rounded-full bg-indigo-100 px-3 py-2 text-sm font-bold text-indigo-700">SA</div></header><div className="p-5 sm:p-8 lg:p-10">{children}</div></main></div>;
 }
